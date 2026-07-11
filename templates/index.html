@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flask MySQL Demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body class="p-4">
+    <div class="container">
+      <h1 class="mb-4">Flask MySQL Demo</h1>
+
+      <form method="get" action="/" class="mb-3">
+        <div class="input-group">
+          <input type="text" name="q" value="{{ q|default('') }}" class="form-control" placeholder="Employee name (partial)">
+          <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+      </form>
+
+      {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+      {% endif %}
+
+      {% if results %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>empID</th>
+              <th>Name</th>
+              <th>Job</th>
+              <th>Home City</th>
+              <th>Annual Salary</th>
+              <th>deptID</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in results %}
+              <tr>
+                <td>{{ row.empID }}</td>
+                <td>{{ row.empName }}</td>
+                <td>{{ row.jobTitle }}</td>
+                <td>{{ row.homeCity }}</td>
+                <td>{{ row.annualSalary }}</td>
+                <td>{{ row.deptID }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% elif q %}
+        <div class="alert alert-warning">No results found for "{{ q }}".</div>
+      {% endif %}
+
+      <hr>
+      <p class="text-muted small">DB seed: <code>data/test.sql</code>. Fill DB credentials in <code>config.py</code>, then install requirements and run the app.</p>
+    </div>
+  </body>
+</html>
